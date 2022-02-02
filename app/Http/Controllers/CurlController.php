@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 class CurlController extends Controller
 {
-    public function sendCurlRequest(array $headers, string $url = 'https://brandshop.ru/sale/?limit=240'): string
+    public static function sendCurlRequest(array $headers, string $url = 'https://brandshop.ru/sale/?limit=240'): string
     {
         $curl = curl_init();
 
