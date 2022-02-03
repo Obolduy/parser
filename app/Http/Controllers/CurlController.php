@@ -4,16 +4,11 @@ namespace App\Http\Controllers;
 
 class CurlController extends Controller
 {
-    public static function sendCurlRequest(array $headers, string $url = 'https://brandshop.ru/sale/?limit=240'): string
+    public static function sendCurlRequest(array $options): string
     {
         $curl = curl_init();
 
-        curl_setopt_array($curl, [
-            CURLOPT_URL => $url,
-            CURLOPT_RETURNTRANSFER => 1,
-            CURLOPT_SSL_VERIFYPEER => false,
-            CURLOPT_HTTPHEADER => $headers
-        ]);
+        curl_setopt_array($curl, $options);
 
         return curl_exec($curl);
     }
