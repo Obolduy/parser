@@ -14,14 +14,12 @@ class SetIndexesAndForeignKeys extends Migration
     public function up()
     {
         Schema::table('sales', function (Blueprint $table) {
-            $table->foreignId('original_link_id')->references('id')->on('original_links');
-            $table->foreignId('cutted_link_id')->references('id')->on('cutted_links');
+            $table->foreignId('link_id')->references('id')->on('original_links');
         });
 
         Schema::table('archive', function (Blueprint $table) {
             $table->foreignId('former_sale_id')->references('id')->on('sales');
-            $table->foreignId('original_link_id')->references('id')->on('original_links');
-            $table->foreignId('cutted_link_id')->references('id')->on('cutted_links');
+            $table->foreignId('link_id')->references('id')->on('original_links');
 
             $table->index('former_sale_id');
         });
@@ -34,6 +32,7 @@ class SetIndexesAndForeignKeys extends Migration
 
         Schema::table('cutted_links', function (Blueprint $table) {
             $table->foreignId('lot_id')->references('id')->on('sales');
+            $table->foreignId('user_token_id')->references('id')->on('linkcutter_tokens');
 
             $table->index('lot_id');
         });

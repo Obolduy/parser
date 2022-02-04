@@ -10,7 +10,6 @@ class OriginalLinks extends Model
     use HasFactory;
 
     protected $fillable = [
-        'lot_id',
         'original_link'
     ];
 }

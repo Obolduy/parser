@@ -11,6 +11,7 @@ class CuttedLinks extends Model
 
     protected $fillable = [
         'lot_id',
+        'user_token_id',
         'cutted_link'
     ];
 }

@@ -13,8 +13,7 @@ class Archive extends Model
         'former_sale_id',
         'added_at',
         'archived_at',
-        'original_link_id',
-        'cutted_link_id'
+        'original_link_id'
     ];
 
     public $timestamps = false;
