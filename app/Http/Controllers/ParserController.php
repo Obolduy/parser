@@ -53,4 +53,12 @@ class ParserController extends Controller
             $this->page->links[] = $href->attributes['href']->value; 
         }
     }
+
+    public function parseAll(): void
+    {
+        $this->parseLotsNames();
+        $this->parseOldPrices();
+        $this->parsePrices();
+        $this->parseLinks();
+    }
 }

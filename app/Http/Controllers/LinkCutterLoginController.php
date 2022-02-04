@@ -39,7 +39,7 @@ class LinkCutterLoginController extends Controller
             'setting_date' => now()->date
         ]);
 
-        $_SESSION['token'] = $token[1];
+        $_SESSION['linkcutter_token'] = $token[1];
 
         return redirect('/');
     }
