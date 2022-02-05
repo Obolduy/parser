@@ -15,7 +15,6 @@ class CreateArchivesTable extends Migration
     {
         Schema::create('archive', function (Blueprint $table) {
             $table->id();
-            $table->dateTime('added_at');
             $table->dateTime('archived_at');            
         });
     }

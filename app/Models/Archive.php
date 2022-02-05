@@ -11,7 +11,6 @@ class Archive extends Model
 
     protected $fillable = [
         'former_sale_id',
-        'added_at',
         'archived_at',
         'original_link_id'
     ];

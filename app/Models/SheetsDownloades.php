@@ -14,4 +14,6 @@ class SheetsDownloades extends Model
         'download_time',
         'download_count'
     ];
+
+    public $timestamps = false;
 }

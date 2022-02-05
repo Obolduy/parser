@@ -23,12 +23,6 @@ class SetIndexesAndForeignKeys extends Migration
 
             $table->index('former_sale_id');
         });
-        
-        Schema::table('original_links', function (Blueprint $table) {
-            $table->foreignId('lot_id')->references('id')->on('sales');
-
-            $table->index('lot_id');
-        });
 
         Schema::table('cutted_links', function (Blueprint $table) {
             $table->foreignId('lot_id')->references('id')->on('sales');

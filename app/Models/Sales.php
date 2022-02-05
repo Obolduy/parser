@@ -14,6 +14,6 @@ class Sales extends Model
         'price',
         'old_price',
         'discount_percents',
-        'original_link_id'
+        'link_id'
     ];
 }

@@ -13,4 +13,6 @@ class LinkcutterTokens extends Model
         'token',
         'setting_date'
     ];
+
+    public $timestamps = false;
 }
