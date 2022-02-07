@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
+
 class ApiGetSalesController extends Controller
 {
     public function apiGetSales()
     {
-        $getSales = new GetSalesController();
+        try {
+            $getSales = new GetSalesController();
 
-        return $getSales->getJsonData($getSales->getSales());
+            return $getSales->getJsonData($getSales->getSales());
+        } catch (Exception $e) {
+            return json_encode(['error' => 'Internal error, sorry']);
+        }
     }
 }
