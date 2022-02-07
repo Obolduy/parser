@@ -4,10 +4,42 @@ namespace App\Http\Controllers;
 
 use PhpQuery\PhpQuery;
 use App\Models\{Archive, OriginalLinks, Sales};
+use Illuminate\Support\Facades\DB;
 
 class GetSalesController extends Controller
 {
     public $page;
+
+    public function getSales(): PageController
+    {
+        $first_sale = Sales::where('id', '>', 0)->first();
+
+        foreach ($first_sale->updated_at as $elem) {
+            $updated_at = $elem;
+        }
+
+        $updated_at = strtotime($updated_at);
+                
+        if (time() - $updated_at < 24) {
+            $pages = Sales::leftJoin('original_links', 'sales.link_id', '=', 'original_links.id')
+                            ->select('sales.*', 'original_links.original_link')->get();
+
+            $page_obj = new PageController('none');
+
+            foreach ($pages as $page) {
+                $page_obj->titles[] = $page->lot_name;
+                $page_obj->prices[] = $page->price;
+                $page_obj->old_prices[] = $page->old_price;
+                $page_obj->discounts[] = $page->discount_percents;
+                $page_obj->links[] = $page->original_link;
+            }
+
+            $this->page = $page_obj;
+            return $page_obj;
+        }
+
+        return $this->parseSales();
+    }
 
     public function parseSales(): PageController
     {
@@ -31,6 +63,8 @@ class GetSalesController extends Controller
 
         $this->deleteCurrentLots();
 
+        DB::beginTransaction();
+
         for ($i = 0; $i < count($page->titles); $i++) {
             $link = OriginalLinks::create([
                 'original_link' => $page->links[$i],
@@ -46,6 +80,8 @@ class GetSalesController extends Controller
                 'link_id' => $link->id
             ]);
         }
+
+        DB::commit();
 
         $this->page = $page;
 
