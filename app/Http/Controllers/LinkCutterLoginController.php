@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\LinkcutterTokens;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LinkCutterLoginController extends Controller
 {
@@ -30,17 +31,23 @@ class LinkCutterLoginController extends Controller
 
         $token = json_decode($curl, true);
 
-        if ($token[0] === 'error') {
+        if (array_key_exists('error', $token)) {
             return 'Неправильный Email или пароль'; // Это в метод для аякса перенеси
         }
 
-        LinkcutterTokens::create([
-            'token' => $token[1],
-            'setting_date' => now()->date
+        $user = LinkcutterTokens::firstOrCreate([
+            'token' => $token['token'],
+            'setting_date' => now()
         ]);
 
-        session(['linkcutter_token' => $token[1]]);
+        session(['linkcutter_token' => $token['token']]);
+
+        Auth::login($user);
+        
+        $request->session()->regenerate();
+        session(['linkcutter_token' => $token['token']]);
 
         return redirect('/');
+
     }
 }
