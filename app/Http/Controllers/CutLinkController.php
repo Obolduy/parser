@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 class CutLinkController extends Controller
 {
     public static function cutLinks(string $token, array $links): array
@@ -20,6 +18,11 @@ class CutLinkController extends Controller
 
         $cutted_links = json_decode($link_cutter, true);
 
-        return $cutted_links;
+        $links = [];
+        foreach ($cutted_links as $key => $cutted_link) {
+            $links[] = $cutted_link['link'];
+        }
+
+        return $links;
     }
 }
