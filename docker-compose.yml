@@ -1,0 +1,33 @@
+# Please, check README.md for make a migration
+
+version: "3.9"
+
+services:
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 1111
+      MYSQL_DATABASE: parser
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    networks:
+      - parser_docker_network
+
+  server:
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+    build: .
+    ports:
+      - "8100:80"
+    restart: always
+    volumes:
+      - ./conf/vhost.conf:/etc/apache2/sites-enabled/000-default.conf
+      - ./conf/hosts:/etc/hosts
+    networks:
+      - parser_docker_network
+
+networks:
+  parser_docker_network: 
