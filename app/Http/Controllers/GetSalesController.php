@@ -10,6 +10,11 @@ class GetSalesController extends Controller
 {
     public $page;
 
+    /**
+     * Get sales from DB or original link.
+     * @return PageController
+     */
+
     public function getSales(): PageController
     {
         $first_sale = Sales::where('id', '>', 0)->first();
@@ -41,7 +46,56 @@ class GetSalesController extends Controller
         return $this->parseSales();
     }
 
-    public function parseSales(): PageController
+    /**
+     * Outputs excel table with sale data.
+     * @param PageController|null $page object with page data.
+     * @return void Returns a table`s download request
+     */
+
+    public function getExcelTable(?PageController $page = null): void
+    {
+        $page = $page ?? $this->page;
+
+        $excel = new ExcelWriteController(new \PHPExcel);
+
+        $columns = [
+            'A' => 'Название вещи', 'B' => 'Цена со скидкой', 'C' => 'Цена без скидки', 
+            'D' => 'Размер скидки', 'E' => 'Ссылка на вещь'
+        ];
+
+        
+        $excel->setColumnsHeaders($columns);
+        $excel->fillSheet($page);
+
+        header("Cache-Control: no-cache, must-revalidate");
+        header("Pragma: no-cache");
+        header("Content-type: application/vnd.ms-excel");
+        header("Content-Disposition: attachment; filename=sales.xls");
+
+        $excel->completeTable('php://output');
+    }
+
+    /**
+     * Returns JSON response with sales data.
+     * @param PageController|null $page object with page data.
+     * @return \Illuminate\Http\Response json response
+     */
+
+    public function getJsonData(?PageController $page = null)
+    {
+        $page = $page ?? $this->page;
+
+        return response(json_encode($page, JSON_UNESCAPED_UNICODE), 200, [
+            'Content-Type' => 'application/json'
+        ]);
+    }
+
+    /**
+     * Sends request to site and parse title, prices and dicount.
+     * @return PageController object with data
+     */
+
+    private function parseSales(): PageController
     {
         $curl = CurlController::sendCurlRequest(
             [
@@ -88,37 +142,10 @@ class GetSalesController extends Controller
         return $this->page;
     }
 
-    public function getExcelTable(?PageController $page = null): void
-    {
-        $page = $page ?? $this->page;
-
-        $excel = new ExcelWriteController(new \PHPExcel);
-
-        $columns = [
-            'A' => 'Название вещи', 'B' => 'Цена со скидкой', 'C' => 'Цена без скидки', 
-            'D' => 'Размер скидки', 'E' => 'Ссылка на вещь'
-        ];
-
-        
-        $excel->setColumnsHeaders($columns);
-        $excel->fillSheet($page);
-
-        header("Cache-Control: no-cache, must-revalidate");
-        header("Pragma: no-cache");
-        header("Content-type: application/vnd.ms-excel");
-        header("Content-Disposition: attachment; filename=sales.xls");
-
-        $excel->completeTable('php://output');
-    }
-
-    public function getJsonData(?PageController $page = null)
-    {
-        $page = $page ?? $this->page;
-
-        return response(json_encode($page, JSON_UNESCAPED_UNICODE), 200, [
-            'Content-Type' => 'application/json'
-        ]);
-    }
+    /**
+     * Delets lots from sales table and adds it into archive table
+     * @return void
+     */
 
     private function deleteCurrentLots(): void
     {
