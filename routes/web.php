@@ -10,6 +10,6 @@ Route::get('/login', function () {
     return view('login');
 })->middleware('isntauth');
 Route::get('/logout', [LinkCutterLoginController::class, 'logout']);
-Route::post('/login/checkdata', [LinkCutterLoginController::class, 'checkLogin']);
+Route::match(['POST', 'GET'], '/login/checkdata', [LinkCutterLoginController::class, 'checkLogin'])->middleware('tokenchecker');
 Route::get('/getsales', [UserGetSalesController::class, 'userGetSales']);
 Route::get('/getsales/table', [UserGetSalesController::class, 'userGetExcel']);

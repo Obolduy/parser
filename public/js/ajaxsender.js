@@ -18,12 +18,10 @@ async function getTables() {
 
         let json = await response.json();
 
-        console.log(json);
         let rows = `<table><tr><th>Полная ссылка</th><th>Короткая ссылка</th></tr>`
 
         for (let link in json) {
             rows += `<tr><td><a href="${link}">${link}</a></td><td><a href="${json[link]}">${json[link]}</a></td></tr>`
-            console.log(link, json[link]);
         }
 
         rows += '<table>';
