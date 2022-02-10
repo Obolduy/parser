@@ -8,7 +8,7 @@ Route::get('/', function () {
 });
 Route::get('/login', function () {
     return view('login');
-});
+})->middleware('isntauth');
 Route::get('/logout', [LinkCutterLoginController::class, 'logout']);
 Route::post('/login/checkdata', [LinkCutterLoginController::class, 'checkLogin']);
 Route::get('/getsales', [UserGetSalesController::class, 'userGetSales']);
