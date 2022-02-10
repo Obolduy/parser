@@ -16,6 +16,12 @@ class ExcelWriteController extends Controller
         $this->writer = new \PHPExcel_Writer_Excel5($this->excel);
     }
 
+    /**
+     * Sets header columns in sheet.
+     * @param array $columns associative array of columns like column_letter => column_name
+     * @return void
+     */
+
     public function setColumnsHeaders(array $columns): void
     {
         $this->setColumns($columns);
@@ -34,6 +40,12 @@ class ExcelWriteController extends Controller
         $this->sheet->getStyle($first_column.':'.$last_column)->getFont()->setBold(true);
     }
 
+    /**
+     * Writes data from PageController object into sheet.
+     * @param PageController $page object with parsed page data.
+     * @return void
+     */
+
     public function fillSheet(PageController $page): void
     {
         foreach ($page as $key => $column) {
@@ -49,10 +61,22 @@ class ExcelWriteController extends Controller
         }
     }
 
+    /**
+     * Saves file with table.
+     * @param string $path file`s path (now - php://output)
+     * @return void
+     */
+
     public function completeTable(string $path): void
     {
-        @$this->writer->save($path);
+        @$this->writer->save($path); // throws old version`s exception
     }
+
+    /**
+     * Sets columns array.
+     * @param array $columns 
+     * @return void
+     */
 
     private function setColumns(array $columns): void
     {
