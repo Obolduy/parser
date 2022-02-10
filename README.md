@@ -12,4 +12,4 @@
 <p>API returns JSON with parsed data. Just send get-request to /api/getsales. You don`t need account or something to do this.</p>
 
 <h2>Run</h2>
-<p>You can run this app via docker-compose up, then you need type docker exec <CONTAINER ID> bash -c "php artisan migrate" to migrate DB and try it on <a href="http://127.0.0.1:8100">http://127.0.0.1:8000</a>.</p>
+<p>You can run this app via docker-compose up, then you need type docker exec <CONTAINER ID> bash -c "php artisan migrate" to migrate DB and try it on <a href="http://127.0.0.1:8100">http://127.0.0.1:8100</a>.</p>
