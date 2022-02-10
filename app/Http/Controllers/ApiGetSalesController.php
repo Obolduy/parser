@@ -6,6 +6,11 @@ use Exception;
 
 class ApiGetSalesController extends Controller
 {
+    /**
+     * Returns sales data for API.
+     * @return void JSON with error message or with sales data
+     */
+
     public function apiGetSales()
     {
         try {

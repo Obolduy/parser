@@ -17,6 +17,11 @@ class ParserController extends Controller
         $this->page = $page;
     }
 
+    /**
+     * Parse lots names from page and signs it into object property
+     * @return void
+     */
+
     public function parseLotsNames(): void
     {    
         foreach ($this->parser->query('h2') as $product) {
@@ -30,6 +35,11 @@ class ParserController extends Controller
         }
     }
 
+    /**
+     * Parse lots old prices from page and signs it into object property
+     * @return void
+     */
+
     public function parseOldPrices(): void
     {
         foreach ($this->parser->query('.price') as $old_price) {
@@ -40,6 +50,11 @@ class ParserController extends Controller
         }
     }
 
+    /**
+     * Parse lots prices from page and signs it into object property
+     * @return void
+     */
+
     public function parsePrices(): void
     {
         foreach ($this->parser->query('.price-sale') as $price) {
@@ -47,12 +62,22 @@ class ParserController extends Controller
         }
     }
 
+    /**
+     * Parse lots links from page and signs it into object property
+     * @return void
+     */
+
     public function parseLinks(): void
     {
         foreach ($this->parser->query('.product-image') as $href) {
             $this->page->links[] = $href->attributes['href']->value; 
         }
     }
+
+    /**
+     * Parse all page data and signs it into object property
+     * @return void
+     */
 
     public function parseAll(): void
     {
