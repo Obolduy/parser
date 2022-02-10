@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 
 class UserGetSalesController extends Controller
 {
+    /**
+     * Get sales and signs serialized object with data into session. Returns JSON links if user has token.
+     * @param Request $request
+     * @return void
+     */
+
     public function userGetSales(Request $request)
     {
         try {
@@ -28,6 +34,12 @@ class UserGetSalesController extends Controller
 
         session(['page_obj' => serialize($page)]);
     }
+
+    /**
+     * Get excel table.
+     * @param Request $request
+     * @return void excel table
+     */
 
     public function userGetExcel(Request $request)
     {
