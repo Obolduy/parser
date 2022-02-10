@@ -10,10 +10,11 @@
     <header>
         @auth
             Вы успешно вошли с помощью <a href="@php echo $_ENV['LINKCUTTER_LINK'] @endphp">Linkcutter</a>.
+            <a href="/logout">Выйти</a>
         @endauth
 
         @guest
-            <a href="/login">Войти</a>
+            <a href="/login">Войти с помощью Linkcutter</a>
         @endguest
     </header>
     <div id="main">
